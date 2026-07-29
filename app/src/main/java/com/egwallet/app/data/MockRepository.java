@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * MockRepository (merged content) — ensure getAllTransactions present for Transactions module.
+ * MockRepository (merged) — extend with card helpers used by Cards module.
  */
 public class MockRepository {
 
@@ -56,6 +56,13 @@ public class MockRepository {
         list.add(new Card("c1", "Visa", "1234", "J. Dupont"));
         list.add(new Card("c2", "Mastercard", "5678", "J. Dupont"));
         return list;
+    }
+
+    public Card getCardById(String id) {
+        for (Card c : getCards()) {
+            if (c.getId().equals(id)) return c;
+        }
+        return null;
     }
 
     // Transactions module data
