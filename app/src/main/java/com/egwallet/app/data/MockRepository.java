@@ -1,13 +1,14 @@
 package com.egwallet.app.data;
 
+import com.egwallet.app.model.Account;
+import com.egwallet.app.model.Card;
 import com.egwallet.app.model.Transaction;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Lightweight MockRepository to provide minimal data contract for ViewModels during UI implementation.
- * Expanded with dashboard helpers to supply sample balance and transactions for frontend development.
+ * MockRepository (merged content) — ensure getAllTransactions present for Transactions module.
  */
 public class MockRepository {
 
@@ -22,52 +23,50 @@ public class MockRepository {
         return instance;
     }
 
-    public boolean isUserLoggedIn() {
-        return loggedIn;
-    }
+    public boolean isUserLoggedIn() { return loggedIn; }
+    public void setUserLoggedIn(boolean value) { this.loggedIn = value; }
+    public boolean isOnboardingSeen() { return onboardingSeen; }
+    public void setOnboardingSeen(boolean seen) { this.onboardingSeen = seen; }
 
-    public void setUserLoggedIn(boolean value) {
-        this.loggedIn = value;
-    }
+    // Auth mocks
+    public boolean login(String email, String password) { setUserLoggedIn(true); return true; }
+    public boolean register(String name, String email, String password) { setUserLoggedIn(true); return true; }
+    public void sendPasswordReset(String email) { }
+    public boolean verifyOtp(String otp) { return otp != null && otp.length() >= 4; }
 
-    public boolean isOnboardingSeen() {
-        return onboardingSeen;
-    }
-
-    public void setOnboardingSeen(boolean seen) {
-        this.onboardingSeen = seen;
-    }
-
-    // Auth mock helpers
-    public boolean login(String email, String password) {
-        setUserLoggedIn(true);
-        return true;
-    }
-
-    public boolean register(String name, String email, String password) {
-        setUserLoggedIn(true);
-        return true;
-    }
-
-    public void sendPasswordReset(String email) {
-        // no-op mock
-    }
-
-    public boolean verifyOtp(String otp) {
-        return otp != null && otp.length() >= 4;
-    }
-
-    // Dashboard sample data
-    public double getBalance() {
-        return 1245.67;
-    }
-
+    // Dashboard helpers
+    public double getBalance() { return 1245.67; }
     public List<Transaction> getRecentTransactions() {
+        List<Transaction> list = new ArrayList<>();
+        list.add(new Transaction("t1", "Paiement - Café", "Bistrot Central", -3.50, "2026-07-28"));
+        list.add(new Transaction("t2", "Salaire", "Entreprise XYZ", 2500.00, "2026-07-27"));
+        return list;
+    }
+
+    // Wallet helpers
+    public List<Account> getAccounts() {
+        List<Account> list = new ArrayList<>();
+        list.add(new Account("a1", "Compte courant", 1245.67, "EUR"));
+        list.add(new Account("a2", "Épargne", 5400.00, "EUR"));
+        return list;
+    }
+
+    public List<Card> getCards() {
+        List<Card> list = new ArrayList<>();
+        list.add(new Card("c1", "Visa", "1234", "J. Dupont"));
+        list.add(new Card("c2", "Mastercard", "5678", "J. Dupont"));
+        return list;
+    }
+
+    // Transactions module data
+    public List<Transaction> getAllTransactions() {
         List<Transaction> list = new ArrayList<>();
         list.add(new Transaction("t1", "Paiement - Café", "Bistrot Central", -3.50, "2026-07-28"));
         list.add(new Transaction("t2", "Salaire", "Entreprise XYZ", 2500.00, "2026-07-27"));
         list.add(new Transaction("t3", "Abonnement", "Streaming", -9.99, "2026-07-25"));
         list.add(new Transaction("t4", "Transfert reçu", "Alice", 50.00, "2026-07-24"));
+        list.add(new Transaction("t5", "Grocery", "Supermarket", -45.23, "2026-07-23"));
+        list.add(new Transaction("t6", "Cadeau", "Pierre", -20.00, "2026-07-22"));
         return list;
     }
 }
