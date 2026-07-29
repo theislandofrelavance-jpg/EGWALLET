@@ -1,14 +1,17 @@
 package com.egwallet.app.data;
 
 import com.egwallet.app.model.Account;
+import com.egwallet.app.model.Beneficiary;
 import com.egwallet.app.model.Card;
 import com.egwallet.app.model.Transaction;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
 /**
- * MockRepository (merged) — extend with card helpers used by Cards module.
+ * MockRepository (merged) — extend with beneficiaries helpers used by Beneficiaries module.
  */
 public class MockRepository {
 
@@ -75,5 +78,32 @@ public class MockRepository {
         list.add(new Transaction("t5", "Grocery", "Supermarket", -45.23, "2026-07-23"));
         list.add(new Transaction("t6", "Cadeau", "Pierre", -20.00, "2026-07-22"));
         return list;
+    }
+
+    // Beneficiaries helpers
+    public List<Beneficiary> getBeneficiaries() {
+        List<Beneficiary> list = new ArrayList<>();
+        list.add(new Beneficiary("b1", "Alice Martin", "FR76 3000 6000 0112 3456 7890"));
+        list.add(new Beneficiary("b2", "Bob Durand", "+33 6 12 34 56 78"));
+        return list;
+    }
+
+    public Beneficiary getBeneficiaryById(String id) {
+        for (Beneficiary b : getBeneficiaries()) {
+            if (b.getId().equals(id)) return b;
+        }
+        return null;
+    }
+
+    public Beneficiary addBeneficiary(String name, String details) {
+        String id = UUID.randomUUID().toString();
+        Beneficiary b = new Beneficiary(id, name, details);
+        // In a real repo we'd persist; in mock we return created instance (not stored persistently)
+        return b;
+    }
+
+    public boolean removeBeneficiary(String id) {
+        // Mock: not persisted across calls; return true as if removed
+        return true;
     }
 }
