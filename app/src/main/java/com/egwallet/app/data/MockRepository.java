@@ -1,8 +1,13 @@
 package com.egwallet.app.data;
 
+import com.egwallet.app.model.Transaction;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Lightweight MockRepository to provide minimal data contract for ViewModels during UI implementation.
- * Expanded with simple auth methods for frontend mock flows.
+ * Expanded with dashboard helpers to supply sample balance and transactions for frontend development.
  */
 public class MockRepository {
 
@@ -50,5 +55,19 @@ public class MockRepository {
 
     public boolean verifyOtp(String otp) {
         return otp != null && otp.length() >= 4;
+    }
+
+    // Dashboard sample data
+    public double getBalance() {
+        return 1245.67;
+    }
+
+    public List<Transaction> getRecentTransactions() {
+        List<Transaction> list = new ArrayList<>();
+        list.add(new Transaction("t1", "Paiement - Café", "Bistrot Central", -3.50, "2026-07-28"));
+        list.add(new Transaction("t2", "Salaire", "Entreprise XYZ", 2500.00, "2026-07-27"));
+        list.add(new Transaction("t3", "Abonnement", "Streaming", -9.99, "2026-07-25"));
+        list.add(new Transaction("t4", "Transfert reçu", "Alice", 50.00, "2026-07-24"));
+        return list;
     }
 }
